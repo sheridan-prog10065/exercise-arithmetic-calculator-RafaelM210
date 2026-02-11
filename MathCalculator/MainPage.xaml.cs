@@ -1,14 +1,20 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace MathCalculator;
 
 public partial class MainPage : ContentPage
 {
+    private ObservableCollection<string> _expList;
+
     public MainPage()
     {
         InitializeComponent();
-    }
+        _expList = new ObservableCollection<string>();
 
+        _lstExpHistory.ItemsSource = _expList;
+    }
+    //adds a list of the history of expressions
     private void OnCalculate (object sender, EventArgs e)
     {
         //obtain the input from the user: left,right and operation
@@ -26,6 +32,9 @@ public partial class MainPage : ContentPage
       
         string expression = $"{leftOperand} {op} {rightOperand} = {result}";
         _txtMathExp.Text = expression;
+        _expList.Add(expression);
+        
+
     }
 
     private double PerformArithmeticOperation(char op, double leftOperand, double rightOperand)
